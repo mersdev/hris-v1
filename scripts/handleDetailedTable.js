@@ -1,5 +1,6 @@
 import { trainingData, employeeData } from "./handleFile.js";
 import { generateSummaryTable } from "./handleAnalysisTable.js";
+import { showDialog } from "./utils.js";
 let currentPage = 1;
 let pageSize = 10;
 let totalPages = 1;
@@ -58,7 +59,10 @@ function getRequiredCoursesByJobTitle(jobTitle, plcPcLabel = "") {
 
 function generateDetailedTable() {
   if (!trainingData || !employeeData) {
-    alert("Please upload both training and employee files first.");
+    showDialog(
+      "Please upload both training and employee files first.",
+      "error"
+    );
     return;
   }
 
@@ -169,7 +173,10 @@ function generateDetailedTable() {
 
 async function exportToExcel() {
   if (!trainingData || !employeeData) {
-    alert("Please upload both training and employee files first.");
+    showDialog(
+      "Please upload both training and employee files first.",
+      "error"
+    );
     return;
   }
 
@@ -241,7 +248,7 @@ async function exportToExcel() {
     window.URL.revokeObjectURL(url);
   } catch (error) {
     console.error("Error exporting to Excel:", error);
-    alert("Error exporting to Excel. Please try again.");
+    showDialog("Error exporting to Excel. Please try again.", "error");
   }
 }
 

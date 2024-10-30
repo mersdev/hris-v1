@@ -1,3 +1,5 @@
+import { showDialog } from "./utils.js";
+
 let trainingData = null;
 let employeeData = null;
 
@@ -77,7 +79,7 @@ function formatFileSize(bytes) {
 async function handleTrainingFile(event) {
   const file = event.target.files[0];
   if (!file) {
-    showToast("No file selected", "error");
+    showDialog("No file selected", "error");
     return;
   }
 
@@ -86,7 +88,7 @@ async function handleTrainingFile(event) {
     "text/csv",
   ];
   if (!validTypes.includes(file.type)) {
-    showToast("Please upload only .xlsx or .csv files!", "error");
+    showDialog("Please upload only .xlsx or .csv files!", "error");
     return;
   }
 
@@ -375,54 +377,6 @@ function updateFileInfoUI(type, fileInfo) {
       fileInfo.type
     }`;
   }
-}
-
-function showDialog(message, type = "warning") {
-  // Create overlay
-  const overlay = document.createElement("div");
-  overlay.className = "dialog-overlay animate-fadeIn";
-
-  // Create dialog box
-  const dialog = document.createElement("div");
-  dialog.className = "dialog-box animate-scaleIn";
-
-  dialog.innerHTML = `
-    <div class="dialog-content">
-      <img src="https://cdn-icons-png.flaticon.com/512/2785/2785693.png" 
-           alt="warning" 
-           class="dialog-icon">
-      <p class="dialog-message">${message}</p>
-      <button class="dialog-button">OK</button>
-    </div>
-  `;
-
-  // Add to DOM
-  overlay.appendChild(dialog);
-  document.body.appendChild(overlay);
-
-  // Focus the OK button
-  const okButton = dialog.querySelector(".dialog-button");
-  okButton.focus();
-
-  // Handle close
-  const closeDialog = () => {
-    dialog.classList.replace("animate-scaleIn", "animate-scaleOut");
-    overlay.classList.replace("animate-fadeIn", "animate-fadeOut");
-    setTimeout(() => overlay.remove(), 300);
-  };
-
-  okButton.addEventListener("click", closeDialog);
-  overlay.addEventListener("click", (e) => {
-    if (e.target === overlay) closeDialog();
-  });
-
-  // Handle Escape key
-  document.addEventListener("keydown", function handleEscape(e) {
-    if (e.key === "Escape") {
-      closeDialog();
-      document.removeEventListener("keydown", handleEscape);
-    }
-  });
 }
 
 // Add event listener for DOMContentLoaded

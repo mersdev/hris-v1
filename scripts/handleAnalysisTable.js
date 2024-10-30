@@ -1,9 +1,13 @@
 import { trainingData, employeeData } from "./handleFile.js";
 import { getRequiredCoursesByJobTitle } from "./handleDetailedTable.js";
+import { showDialog } from "./utils.js";
 
 function generateSummaryTable() {
   if (!trainingData || !employeeData) {
-    alert("Please upload both training and employee files first.");
+    showDialog(
+      "Please upload both training and employee files first.",
+      "error"
+    );
     return;
   }
 
