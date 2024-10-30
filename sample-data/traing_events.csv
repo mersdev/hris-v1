@@ -1,0 +1,31 @@
+Event_No,Event_Host,Actual_Training,Training_Provider,Event_Name,Start_Date,End_Date,Training_Days,Training_Duration_Hours,Registered_Participants,Actual_Attendance
+EVT0001,In-House,EHS - Safety,Company Safety Officer,Cylinder Selection & Sizing and Air Consumption,01/01/23,02/01/23,2,16,30,28
+EVT0002,Ext,HR,External HR Consultant,Motor Sizing By Using VisualSizer,03/01/23,04/01/23,2,16,25,22
+EVT0003,Int,Finance,Internal Finance Team,Material Selection & Surface Treatment,05/01/23,06/01/23,2,16,35,32
+EVT0004,In-House,IT,Internal IT Team,Project Costing Preparation,07/01/23,08/01/23,2,16,20,18
+EVT0005,Ext,EHS - Safety,External Safety Consultant,Basic GD&T,09/01/23,10/01/23,2,16,28,25
+EVT0006,Int,IT,Internal IT Team,Sensor Selection,11/01/23,12/01/23,2,16,32,28
+EVT0007,In-House,EHS - Safety,Company Safety Officer,Pneumatic Diagram (SMC),13/01/23,14/01/23,2,16,25,22
+EVT0008,Ext,HR,External HR Consultant,MOP,15/01/23,16/01/23,2,16,35,32
+EVT0009,Int,Finance,Internal Finance Team,MDFP,17/01/23,18/01/23,2,16,20,18
+EVT0010,In-House,IT,Internal IT Team,Intro C#,19/01/23,20/01/23,2,16,28,25
+EVT0011,Ext,IT,External IT Consultant,Intro C# Object Oriented,21/01/23,22/01/23,2,16,32,28
+EVT0012,Int,IT,Internal IT Team,TCP/IP,23/01/23,24/01/23,2,16,25,22
+EVT0013,In-House,IT,Internal IT Team,WPF,25/01/23,26/01/23,2,16,35,32
+EVT0014,Ext,HR,External HR Consultant,SOP,27/01/23,28/01/23,2,16,20,18
+EVT0015,Int,Finance,Internal Finance Team,Basic Pneumatic Control,29/01/23,30/01/23,2,16,28,25
+EVT0016,In-House,IT,Internal IT Team,Basic AB,31/01/23,01/02/23,2,16,32,28
+EVT0017,Ext,IT,External IT Consultant,Basic Siemens,02/02/23,03/02/23,2,16,25,22
+EVT0018,Int,HR,Internal HR Team,Entry Level,04/02/23,05/02/23,2,16,35,32
+EVT0019,In-House,IT,Internal IT Team,AB Data,06/02/23,07/02/23,2,16,20,18
+EVT0020,Ext,Finance,External Finance Consultant,SOP,08/02/23,09/02/23,2,16,28,25
+EVT0021,Int,EHS - Safety,Internal Safety Team,Basic Pneumatic Control,10/02/23,11/02/23,2,16,32,28
+EVT0022,In-House,IT,Internal IT Team,Fundamentals of Vision and Design Application,12/02/23,13/02/23,2,16,25,22
+EVT0023,Ext,HR,External HR Consultant,SOP,14/02/23,15/02/23,2,16,35,32
+EVT0024,Int,Finance,Internal Finance Team,Basic Pneumatic Control,16/02/23,17/02/23,2,16,20,18
+EVT0025,In-House,IT,Internal IT Team,Electrical Drawing using ZWCAD Software,18/02/23,19/02/23,2,16,28,25
+EVT0026,Ext,EHS - Safety,External Safety Consultant,Electrical Standards (CE, UL),20/02/23,21/02/23,2,16,32,28
+EVT0027,Int,HR,Internal HR Team,SOP,22/02/23,23/02/23,2,16,25,22
+EVT0028,In-House,Finance,Internal Finance Team,Basic Pneumatic Control,24/02/23,25/02/23,2,16,35,32
+EVT0029,Ext,IT,External IT Consultant,Introduction to C# Programming,26/02/23,27/02/23,2,16,20,18
+EVT0030,Int,EHS - Safety,Internal Safety Team,SOP,28/02/23,01/03/23,2,16,28,25

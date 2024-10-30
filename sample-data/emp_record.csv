@@ -1,0 +1,26 @@
+Employee ID,Employee Name,Department,Job Title,Email Address,PLC/PC
+100001,John Smith,E-MOBILITY I,ELECTRICAL DESIGN ENGINEER 1,john.smith@greatech-group.com,-
+100002,Jane Doe,E-MOBILITY II,MECHANICAL DESIGN ENGINEER 1,jane.doe@greatech-group.com,-
+100003,Michael Lee,INSTRUMENTS,SOFTWARE ENGINEER 1,michael.lee@greatech-group.com,PLC
+100004,Olivia Jones,LIFE SCIENCE I,TEST ENGINEER 1,olivia.jones@greatech-group.com,-
+100005,William Brown,LIFE SCIENCE II,VISION ENGINEER 1,william.brown@greatech-group.com,-
+100006,Emily Garcia,PHARMACEUTICAL,ELECTRICAL DESIGN ENGINEER 1,emily.garcia@greatech-group.com,-
+100007,David Miller,SEMICON AUTOMATION,MECHANICAL DESIGN ENGINEER 1,david.miller@greatech-group.com,-
+100008,Sarah Davis,THIN FILM I,SOFTWARE ENGINEER 1,sarah.davis@greatech-group.com,PC
+100009,Richard Johnson,THIN FILM I,TEST ENGINEER 1,richard.johnson@greatech-group.com,-
+100010,Jennifer Williams,THIN FILM 2,VISION ENGINEER 1,jennifer.williams@greatech-group.com,-
+100011,Charles Taylor,E-MOBILITY I,SOFTWARE ENGINEER 1,charles.taylor@greatech-group.com,PLC
+100012,Amanda Thomas,E-MOBILITY II,ELECTRICAL DESIGN ENGINEER 1,amanda.thomas@greatech-group.com,-
+100013,Daniel Hernandez,INSTRUMENTS,MECHANICAL DESIGN ENGINEER 1,daniel.hernandez@greatech-group.com,-
+100014,Elizabeth Wilson,LIFE SCIENCE I,TEST ENGINEER 1,elizabeth.wilson@greatech-group.com,-
+100015,Robert Moore,LIFE SCIENCE II,SOFTWARE ENGINEER 1,robert.moore@greatech-group.com,PC
+100016,Christina Young,PHARMACEUTICAL,VISION ENGINEER 1,christina.young@greatech-group.com,-
+100017,Joseph Allen,SEMICON AUTOMATION,ELECTRICAL DESIGN ENGINEER 1,joseph.allen@greatech-group.com,-
+100018,Margaret Garcia,THIN FILM I,MECHANICAL DESIGN ENGINEER 1,margaret.garcia@greatech-group.com,-
+100019,Kenneth Thomas,THIN FILM I,TEST ENGINEER 1,kenneth.thomas@greatech-group.com,-
+100020,Catherine Baker,THIN FILM 2,SOFTWARE ENGINEER 1,catherine.baker@greatech-group.com,PLC
+100021,James Hernandez,E-MOBILITY I,ELECTRICAL DESIGN ENGINEER 1,james.hernandez@greatech-group.com,-
+100022,Barbara Garcia,E-MOBILITY II,MECHANICAL DESIGN ENGINEER 1,barbara.garcia@greatech-group.com,-
+100023,Matthew Robinson,INSTRUMENTS,SOFTWARE ENGINEER 1,matthew.robinson@greatech-group.com,PC
+100024,Ashley Moore,LIFE SCIENCE I,TEST ENGINEER 1,ashley.moore@greatech-group.com,-
+100025,Christopher Allen,LIFE SCIENCE II,VISION ENGINEER 1,christopher.allen@greatech-group.com,-
