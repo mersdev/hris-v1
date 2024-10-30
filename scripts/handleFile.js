@@ -5,8 +5,10 @@ function saveToSessionStorage(trainingData, employeeData) {
   try {
     sessionStorage.setItem("trainingData", JSON.stringify(trainingData));
     sessionStorage.setItem("employeeData", JSON.stringify(employeeData));
+    showToast("Data saved to session storage", "success");
   } catch (error) {
     console.error("Error saving to session storage:", error);
+    showToast("Error saving data to session", "error");
   }
 }
 
@@ -18,11 +20,28 @@ function loadFromSessionStorage() {
     if (savedTrainingData && savedEmployeeData) {
       trainingData = JSON.parse(savedTrainingData);
       employeeData = JSON.parse(savedEmployeeData);
+
+      // Load file info and update UI for both files
+      const trainingFileInfo = loadFileInfoFromSession("training");
+      const employeeFileInfo = loadFileInfoFromSession("employee");
+
+      if (trainingFileInfo) {
+        updateFileInfoUI("training", trainingFileInfo);
+        showToast("Training data restored from session", "info");
+      }
+
+      if (employeeFileInfo) {
+        updateFileInfoUI("employee", employeeFileInfo);
+        showToast("Employee data restored from session", "info");
+        populateJobTitleFilter(); // Repopulate the job title filter
+      }
+
       return true;
     }
     return false;
   } catch (error) {
     console.error("Error loading from session storage:", error);
+    showToast("Error loading saved data", "error");
     return false;
   }
 }
@@ -147,19 +166,83 @@ async function handleEmployeeFile(event) {
 }
 
 function clearFiles() {
+  // Clear data variables
   trainingData = null;
   employeeData = null;
   sessionStorage.clear();
 
+  // Clear file inputs
   document.getElementById("trainingFile").value = "";
   document.getElementById("employeeFile").value = "";
 
+  // Hide file info sections
   document.getElementById("trainingFileInfo").classList.add("hidden");
   document.getElementById("employeeFileInfo").classList.add("hidden");
 
-  document.getElementById("resultTable").querySelector("tbody").innerHTML = "";
+  // Clear detailed table
+  const resultTable = document.getElementById("resultTable");
+  if (resultTable) {
+    const tbody = resultTable.querySelector("tbody");
+    const thead = resultTable.querySelector("thead");
+    if (tbody) tbody.innerHTML = "";
+    if (thead) thead.innerHTML = "";
+  }
 
-  showToast("All files have been cleared", "info");
+  // Clear summary table
+  const summaryTable = document.getElementById("summaryTable");
+  if (summaryTable) {
+    const tbody = summaryTable.querySelector("tbody");
+    const thead = summaryTable.querySelector("thead");
+    if (tbody) tbody.innerHTML = "";
+    if (thead) thead.innerHTML = "";
+  }
+
+  // Clear and destroy pie chart
+  const pieChartCanvas = document.getElementById("summaryChart");
+  if (pieChartCanvas) {
+    const existingPieChart = Chart.getChart(pieChartCanvas);
+    if (existingPieChart) {
+      existingPieChart.destroy();
+    }
+  }
+
+  // Clear and destroy completion chart
+  const completionChartCanvas = document.getElementById("completionChart");
+  if (completionChartCanvas) {
+    const existingCompletionChart = Chart.getChart(completionChartCanvas);
+    if (existingCompletionChart) {
+      existingCompletionChart.destroy();
+    }
+  }
+
+  // Disable generate table button
+  const generateButton = document.getElementById("generateTable");
+  if (generateButton) {
+    generateButton.disabled = true;
+  }
+
+  // Clear job title filter
+  const jobTitleFilter = document.getElementById("jobTitleFilter");
+  if (jobTitleFilter) {
+    jobTitleFilter.innerHTML = '<option value="">All</option>';
+  }
+
+  // Hide all containers
+  const containersToHide = [
+    "detailedTableContainer",
+    "summaryTableContainer",
+    "pieChartContainer",
+    "completionChartContainer",
+  ];
+
+  containersToHide.forEach((containerId) => {
+    const container = document.getElementById(containerId);
+    if (container) {
+      container.classList.add("hidden");
+    }
+  });
+
+  showToast("All files and data have been cleared", "info");
 }
 
 function populateJobTitleFilter() {
@@ -278,6 +361,96 @@ function loadFileInfoFromSession(type) {
     return null;
   }
 }
+
+// Helper function to update UI elements for file info
+function updateFileInfoUI(type, fileInfo) {
+  const fileInfoElement = document.getElementById(`${type}FileInfo`);
+  const fileName = document.getElementById(`${type}FileName`);
+  const fileDetails = document.getElementById(`${type}FileDetails`);
+
+  if (fileInfoElement && fileName && fileDetails) {
+    fileInfoElement.classList.remove("hidden");
+    fileName.textContent = fileInfo.name;
+    fileDetails.textContent = `${formatFileSize(fileInfo.size)} • ${
+      fileInfo.type
+    }`;
+  }
+}
+
+function showDialog(message, type = "warning") {
+  // Create overlay
+  const overlay = document.createElement("div");
+  overlay.className = "dialog-overlay animate-fadeIn";
+
+  // Create dialog box
+  const dialog = document.createElement("div");
+  dialog.className = "dialog-box animate-scaleIn";
+
+  dialog.innerHTML = `
+    <div class="dialog-content">
+      <img src="https://cdn-icons-png.flaticon.com/512/2785/2785693.png" 
+           alt="warning" 
+           class="dialog-icon">
+      <p class="dialog-message">${message}</p>
+      <button class="dialog-button">OK</button>
+    </div>
+  `;
+
+  // Add to DOM
+  overlay.appendChild(dialog);
+  document.body.appendChild(overlay);
+
+  // Focus the OK button
+  const okButton = dialog.querySelector(".dialog-button");
+  okButton.focus();
+
+  // Handle close
+  const closeDialog = () => {
+    dialog.classList.replace("animate-scaleIn", "animate-scaleOut");
+    overlay.classList.replace("animate-fadeIn", "animate-fadeOut");
+    setTimeout(() => overlay.remove(), 300);
+  };
+
+  okButton.addEventListener("click", closeDialog);
+  overlay.addEventListener("click", (e) => {
+    if (e.target === overlay) closeDialog();
+  });
+
+  // Handle Escape key
+  document.addEventListener("keydown", function handleEscape(e) {
+    if (e.key === "Escape") {
+      closeDialog();
+      document.removeEventListener("keydown", handleEscape);
+    }
+  });
+}
+
+// Add event listener for DOMContentLoaded
+document.addEventListener("DOMContentLoaded", () => {
+  // Try to load data from session storage
+  if (loadFromSessionStorage()) {
+    console.log("Data loaded from session storage");
+
+    // If both files are loaded, enable the generate table button
+    if (trainingData && employeeData) {
+      const generateButton = document.getElementById("generateTable");
+      if (generateButton) {
+        generateButton.disabled = false;
+      }
+    }
+  } else {
+    console.log("No saved data found in session storage");
+  }
+
+  // Add other event listeners
+  document
+    .getElementById("trainingFile")
+    .addEventListener("change", handleTrainingFile);
+  document
+    .getElementById("employeeFile")
+    .addEventListener("change", handleEmployeeFile);
+  document.getElementById("clearExcel").addEventListener("click", clearFiles);
+});
 
 export {
   handleTrainingFile,
