@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Training Records Analysis</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdn.sheetjs.com/xlsx-0.19.3/package/dist/xlsx.full.min.js"></script>
+    <script src="https://unpkg.com/exceljs/dist/exceljs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <script src="scripts/main.js" type="module" defer></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#4F7FFF",
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+  <body class="bg-gray-100 font-sans">
+    <div class="flex">
+      <div class="w-64 bg-white shadow-lg h-screen sticky top-0">
+        <div class="flex items-center mx-4 py-5 border-b">
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/3429/3429142.png"
+            alt="Greatch HRT Logo"
+            class="w-8 h-8"
+          />
+          <span class="ml-2 text-xl font-bold text-gray-800">Greatch HRT</span>
+        </div>
+
+        <nav class="mt-1">
+          <a
+            href="#"
+            class="flex items-center px-6 py-3 bg-blue-50 text-blue-600 border-r-4 border-blue-600"
+          >
+            <img
+              src="https://cdn-icons-png.flaticon.com/512/765/765761.png"
+              alt="graduation cap icon"
+              class="w-8 h-8"
+            />
+            <span class="ml-4">YEP Program</span>
+          </a>
+          <a
+            href="#"
+            class="flex items-center px-6 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors"
+          >
+            <img
+              src="https://cdn-icons-png.flaticon.com/512/17676/17676398.png"
+              alt="cogs icon"
+              class="w-8 h-8"
+            />
+            <span class="ml-4">Engineering</span>
+          </a>
+          <a
+            href="#"
+            class="flex items-center px-6 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors"
+          >
+            <img
+              src="https://cdn-icons-png.flaticon.com/512/3281/3281289.png"
+              alt="users icon"
+              class="w-8 h-8"
+            />
+            <span class="ml-4">Non-technical</span>
+          </a>
+        </nav>
+      </div>
+
+      <div class="flex-1 flex flex-col min-h-screen">
+        <div class="flex-1">
+          <div class="max-w-6xl mx-auto py-8">
+            <div class="bg-white p-6 rounded-lg shadow mb-8">
+              <h2 class="text-2xl font-bold text-gray-800 mb-6">
+                Upload Files
+              </h2>
+              <div class="flex flex-wrap gap-4 mb-6">
+                <div class="flex-1 min-w-[250px]">
+                  <div
+                    class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center cursor-pointer"
+                    onclick="document.getElementById('trainingFile').click()"
+                    ondragover="event.preventDefault()"
+                    ondrop="handleFileDrop(event, 'trainingFile')"
+                  >
+                    <div class="flex justify-center mb-4">
+                      <div class="bg-gray-100 p-3 rounded-full">
+                        <img
+                          src="https://cdn-icons-png.flaticon.com/512/1379/1379905.png"
+                          alt="File Upload Icon"
+                          class="w-8 h-8"
+                        />
+                      </div>
+                    </div>
+                    <p class="text-blue-600 font-semibold">
+                      <a
+                        href="#"
+                        class="hover:underline"
+                        onclick="document.getElementById('trainingFile').click()"
+                        >Click here</a
+                      >
+                      to upload Training Records.
+                    </p>
+                    <p class="text-gray-500 mt-2">
+                      Supported Format: CSV, XLSX (10mb each)
+                    </p>
+                    <input
+                      type="file"
+                      id="trainingFile"
+                      accept=".csv,.xlsx"
+                      class="hidden"
+                    />
+                    <div id="trainingFileInfo" class="mt-4 hidden">
+                      <div
+                        class="bg-white border border-gray-200 rounded-lg p-3 flex items-center justify-between"
+                      >
+                        <div class="flex items-center gap-3">
+                          <div class="bg-amber-100 p-2 rounded-lg">
+                            <img
+                              src="https://cdn-icons-png.flaticon.com/512/1379/1379905.png"
+                              alt="File Icon"
+                              class="w-6 h-6"
+                            />
+                          </div>
+                          <div class="text-left">
+                            <p
+                              class="font-semibold text-gray-900"
+                              id="trainingFileName"
+                            ></p>
+                            <p
+                              class="text-sm text-gray-500"
+                              id="trainingFileDetails"
+                            ></p>
+                          </div>
+                        </div>
+                        <div class="flex items-center">
+                          <img
+                            src="https://cdn-icons-png.flaticon.com/512/12121/12121364.png"
+                            alt="Success Icon"
+                            class="w-10 h-10 transform scaleX(-1)"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="flex-1 min-w-[250px]">
+                  <div
+                    class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center cursor-pointer"
+                    onclick="document.getElementById('employeeFile').click()"
+                    ondragover="event.preventDefault()"
+                    ondrop="handleFileDrop(event, 'employeeFile')"
+                  >
+                    <div class="flex justify-center mb-4">
+                      <div class="bg-gray-100 p-3 rounded-full">
+                        <img
+                          src="https://cdn-icons-png.flaticon.com/512/1379/1379905.png"
+                          alt="File Upload Icon"
+                          class="w-8 h-8"
+                        />
+                      </div>
+                    </div>
+                    <p class="text-blue-600 font-semibold">
+                      <a
+                        href="#"
+                        class="hover:underline"
+                        onclick="document.getElementById('employeeFile').click()"
+                        >Click here</a
+                      >
+                      to upload Employee Data.
+                    </p>
+                    <p class="text-gray-500 mt-2">
+                      Supported Format: CSV, XLSX (10mb each)
+                    </p>
+                    <input
+                      type="file"
+                      id="employeeFile"
+                      accept=".csv,.xlsx"
+                      class="hidden"
+                    />
+
+                    <div id="employeeFileInfo" class="mt-4 hidden">
+                      <div
+                        class="bg-white border border-gray-200 rounded-lg p-3 flex items-center justify-between"
+                      >
+                        <div class="flex items-center gap-3">
+                          <div class="bg-amber-100 p-2 rounded-lg">
+                            <img
+                              src="https://cdn-icons-png.flaticon.com/512/1379/1379905.png"
+                              alt="File Icon"
+                              class="w-6 h-6"
+                            />
+                          </div>
+                          <div class="text-left">
+                            <p
+                              class="font-semibold text-gray-900"
+                              id="employeeFileName"
+                            ></p>
+                            <p
+                              class="text-sm text-gray-500"
+                              id="employeeFileDetails"
+                            ></p>
+                          </div>
+                        </div>
+                        <div class="flex items-center">
+                          <div class="flex items-center justify-center">
+                            <img
+                              src="https://cdn-icons-png.flaticon.com/512/12121/12121364.png"
+                              alt="Success Icon"
+                              class="w-10 h-10 transform scaleX(-1)"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="flex gap-4">
+                <button
+                  id="generateTable"
+                  class="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-md shadow-sm transition duration-150 ease-in-out"
+                >
+                  <i class="fas fa-table mr-2"></i>Generate Table
+                </button>
+                <button
+                  id="clearExcel"
+                  class="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-md shadow-sm transition duration-150 ease-in-out"
+                >
+                  <i class="fas fa-trash-alt mr-2"></i>Clear Excel File
+                </button>
+              </div>
+            </div>
+
+            <div
+              class="bg-white rounded-lg shadow-lg border border-gray-200 mb-8 p-6"
+            >
+              <div class="border-b border-gray-200 py-2">
+                <h2 class="text-2xl font-semibold text-gray-800">
+                  YEP Training Analysis
+                </h2>
+              </div>
+
+              <div class="py-3">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div class="overflow-x-auto">
+                    <table
+                      id="summaryTable"
+                      class="w-full table-auto border-collapse"
+                    >
+                      <thead class="bg-gray-50"></thead>
+                      <tbody class="divide-y divide-gray-200"></tbody>
+                    </table>
+                  </div>
+
+                  <div class="min-h-[400px] flex items-center justify-center">
+                    <canvas id="summaryChart"></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+              <h2 class="text-2xl font-bold text-gray-800 mb-6 pb-2 border-b">
+                YEP Training Records
+              </h2>
+
+              <div class="flex flex-wrap gap-4 mb-6">
+                <div class="flex-1 min-w-[250px]">
+                  <label class="block text-sm font-medium text-gray-700 mb-2">
+                    Filter by Job Title
+                  </label>
+                  <select
+                    id="jobTitleFilter"
+                    class="w-full border border-gray-300 rounded-md shadow-sm px-4 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                  >
+                    <option value="">All</option>
+                  </select>
+                </div>
+
+                <div class="flex-1 min-w-[250px]">
+                  <label class="block text-sm font-medium text-gray-700 mb-2">
+                    Search Employee
+                  </label>
+                  <div class="relative">
+                    <input
+                      type="text"
+                      id="employeeSearch"
+                      placeholder="Search by ID or Name..."
+                      class="w-full border border-gray-300 rounded-md shadow-sm px-4 py-2 pl-10 bg-white focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                    />
+                    <div
+                      class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+                    >
+                      <i class="fas fa-search text-gray-400"></i>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="flex gap-3 items-end">
+                  <button
+                    id="exportExcel"
+                    class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-md shadow-sm transition duration-150 ease-in-out"
+                  >
+                    <i class="fas fa-file-excel mr-2"></i>Export to Excel
+                  </button>
+                </div>
+              </div>
+
+              <div class="bg-white rounded-lg border border-gray-200">
+                <div class="overflow-x-auto">
+                  <table
+                    id="resultTable"
+                    class="w-full table-auto border-collapse"
+                  >
+                    <thead class="bg-gray-50"></thead>
+                    <tbody class="divide-y divide-gray-200"></tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div
+                class="mt-4 flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6"
+              >
+                <div class="flex items-center">
+                  <label class="text-sm text-gray-700 mr-2">Show</label>
+                  <select
+                    id="pageSize"
+                    class="border border-gray-300 rounded-md shadow-sm px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                  >
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="50">50</option>
+                  </select>
+                  <label class="text-sm text-gray-700 ml-2">entries</label>
+                </div>
+
+                <div class="flex items-center gap-2">
+                  <button
+                    id="prevPage"
+                    class="px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    <i class="fas fa-chevron-left"></i>
+                  </button>
+                  <span id="pageInfo" class="text-sm text-gray-700"
+                    >Page 1 of 1</span
+                  >
+                  <button
+                    id="nextPage"
+                    class="px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    <i class="fas fa-chevron-right"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <p class="text-sm text-gray-600 text-center">
+              Technical Support & Assistance: Please contact Business Relations
+              Department at +6016-5709826 (Mon-Fri, 9AM-6PM)
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
