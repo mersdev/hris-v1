@@ -75,6 +75,7 @@ function generateDetailedTable() {
   tbody.innerHTML = "";
 
   const jobTitleFilter = document.getElementById("jobTitleFilter").value;
+  const searchTerm = document.getElementById("employeeSearch").value;
 
   // Get table columns
   const tableColumns =
@@ -82,9 +83,11 @@ function generateDetailedTable() {
       ? [...new Set(trainingData.map((t) => t.Course_Title))].sort()
       : getRequiredCoursesByJobTitle(
           jobTitleFilter,
-          employeeData.find((emp) => emp["Job Title"] === jobTitleFilter)?.[
-            "PLC/PC"
-          ]
+          jobTitleFilter.includes("SOFTWARE ENGINEER 1")
+            ? jobTitleFilter.includes("PLC")
+              ? "PLC"
+              : "PC"
+            : null
         );
 
   // Create header row
@@ -102,7 +105,7 @@ function generateDetailedTable() {
     </tr>
   `;
 
-  // Filter employees
+  // Filter employees by job title first
   let filteredEmployees = jobTitleFilter
     ? employeeData.filter((emp) => {
         if (jobTitleFilter === "SOFTWARE ENGINEER 1 (PC)") {
@@ -119,6 +122,9 @@ function generateDetailedTable() {
         return emp["Job Title"] === jobTitleFilter;
       })
     : employeeData;
+
+  // Then filter by search term
+  filteredEmployees = filterEmployeesBySearch(filteredEmployees, searchTerm);
 
   // Apply pagination
   const paginatedEmployees = updatePagination(filteredEmployees);
@@ -383,13 +389,25 @@ function populateJobTitleDropdown() {
 // Update the filter function to handle the new table structure
 function setupFilterListener() {
   document.getElementById("jobTitleFilter").addEventListener("change", () => {
-    // Clear the table body immediately when dropdown changes
-    const tbody = document.getElementById("resultTable").querySelector("tbody");
-    tbody.innerHTML = "";
-
-    currentPage = 1; // Reset to first page when filter changes
+    currentPage = 1;
     generateDetailedTable();
   });
+
+  document.getElementById("employeeSearch").addEventListener("input", () => {
+    currentPage = 1;
+    generateDetailedTable();
+  });
+}
+
+function filterEmployeesBySearch(employees, searchTerm) {
+  if (!searchTerm) return employees;
+
+  searchTerm = searchTerm.toLowerCase();
+  return employees.filter(
+    (emp) =>
+      emp["Employee ID"].toString().toLowerCase().includes(searchTerm) ||
+      emp["Employee Name"].toLowerCase().includes(searchTerm)
+  );
 }
 
 export {
