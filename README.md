@@ -36,17 +36,6 @@ A web-based application designed to analyze and visualize training records for Y
   - SheetJS for Excel file handling
   - ExcelJS for Excel export functionality
 
-## File Structure
-
-├── index.html
-├── style.css
-├── scripts/
-│ ├── main.js
-│ ├── handleFile.js
-│ ├── handleDetailedTable.js
-│ ├── handleAnalysisTable.js
-│ └── utils.js
-
 ## Setup and Installation
 
 1. Clone the repository
