@@ -73,7 +73,10 @@
 
     <script>
       document.querySelector("button").addEventListener("click", () => {
-        window.location.href = "/yep";
+        // Check if we're on GitHub Pages
+        const isGitHubPages = window.location.hostname.includes("github.io");
+        // Redirect to appropriate path
+        window.location.href = isGitHubPages ? "/hris-v1/yep" : "/yep";
       });
     </script>
   </body>
